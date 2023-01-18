@@ -3,6 +3,7 @@
     <label class="input__label" :for="inputId">{{ label }}</label>
     <input
       class="input__item"
+      :class="{ input__item_error: error !== '' }"
       required="true"
       :type="type"
       :id="inputId"
@@ -23,6 +24,7 @@ export default {
     type: String,
     modelValue: [String, Number],
     error: String,
+    signIn: Boolean,
   },
   methods: {
     updateInput(evt) {
@@ -33,6 +35,8 @@ export default {
 </script>
   
 <style lang="scss">
+@import "../assets/variables.scss";
+
 .input {
   display: flex;
   flex-direction: column;
@@ -66,6 +70,10 @@ export default {
     line-height: 1.43;
     color: rgba(0, 0, 0, 0.8);
     margin-bottom: 20px;
+
+    &_error {
+      background-color: rgba(255, 102, 131, 0.2);
+    }
   }
 
   &__item:focus-visible {
@@ -77,8 +85,10 @@ export default {
     font-weight: 400;
     font-size: 10px;
     line-height: 2;
-    color: #ff6683;
-    margin-left: 18px;
+    color: $error;
+    position: absolute;
+    left: 18px;
+    top: 58px;
   }
 }
 </style>

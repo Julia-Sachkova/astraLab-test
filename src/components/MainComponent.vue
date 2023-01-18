@@ -1,11 +1,26 @@
 <template>
   <section class="main">
-    <h1 class="main__title">Hello, John Doe!</h1>
+    <h1 class="main__title">Hello, {{ name }}!</h1>
     <img class="main__img" src="../assets/images/woman2.png" alt="девушка." />
   </section>
 </template>
 
 <script>
+export default {
+  data() {
+    return {
+      name: "",
+      user: JSON.parse(localStorage.getItem("user")),
+    };
+  },
+  mounted() {
+    if (this.user) {
+      this.name = this.user.fullName;
+    } else {
+      this.$router.push("/sign-in");
+    }
+  },
+};
 </script>
 
 <style lang="scss">

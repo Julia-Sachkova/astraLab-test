@@ -2,9 +2,17 @@
   <div class="auth">
     <h1 class="auth__title">{{ title }}</h1>
 
-    <form class="auth__form">
+    <form class="auth__form" @submit.prevent>
       <slot></slot>
-      <button type="submit" class="auth__btn">{{ title }}</button>
+      <button
+        type="submit"
+        class="auth__btn"
+        :disabled="!isBtnActive"
+        :class="{ auth__btn_active: isBtnActive }"
+        @click="$emit('auth', form)"
+      >
+        {{ title }}
+      </button>
     </form>
 
     <p class="auth__question">{{ questionText }}</p>
@@ -19,6 +27,8 @@ export default {
     title: String,
     questionText: String,
     link: String,
+    isBtnActive: Boolean,
+    form: Object,
   },
   data() {
     return {
@@ -79,6 +89,10 @@ export default {
     border: none;
     margin-top: 19px;
     opacity: 0.4;
+
+    &_active {
+      opacity: 1;
+    }
   }
 
   &__question,

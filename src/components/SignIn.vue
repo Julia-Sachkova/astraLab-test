@@ -4,18 +4,24 @@
       :title="'Sign In'"
       :questionText="'Don’t have an account yet?'"
       :link="'Sign Up'"
+      :isBtnActive="isBtnActive"
+      @auth="handleSubmit"
     >
       <auth-input
         :label="'Email'"
         :inputId="'email'"
         type="email"
         v-model="form.email"
+        :error="errors.emailError"
+        @input="checkEmail"
       />
       <auth-input
         :label="'Password'"
         :inputId="'password'"
         :type="passType"
         v-model="form.pass"
+        :error="errors.passError"
+        @input="checkPass"
       >
         <img
           class="input__eye"
@@ -33,6 +39,17 @@
         />
       </auth-input>
     </auth-component>
+
+    <Transition name="popup">
+      <div v-if="showPopup" class="popup">
+        <p class="popup__text">Wrong email or password</p>
+        <button
+          type="button"
+          class="popup__close-btn"
+          @click="handleClickPopup"
+        />
+      </div>
+    </Transition>
   </section>
 </template>
   
@@ -48,7 +65,13 @@ export default {
         email: "",
         pass: "",
       },
+      errors: {
+        emailError: "",
+        passError: "",
+      },
       passType: "password",
+      showPopup: false,
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
   methods: {
@@ -57,12 +80,104 @@ export default {
         ? (this.passType = "text")
         : (this.passType = "password");
     },
+    handleClickPopup() {
+      this.showPopup = false;
+    },
+    checkEmail(evt) {
+      if (this.user.email !== evt.target.value) {
+        this.showPopup = true;
+        this.errors.emailError = " ";
+      } else {
+        this.errors.emailError = "";
+        this.showPopup = false;
+      }
+    },
+    checkPass(evt) {
+      if (this.user.pass !== evt.target.value) {
+        this.showPopup = true;
+        this.errors.passError = " ";
+      } else {
+        this.errors.passError = "";
+        this.showPopup = false;
+      }
+    },
+    handleSubmit() {
+      this.$router.push("/main");
+
+      this.form = {
+        email: "",
+        pass: "",
+      };
+    },
+  },
+  computed: {
+    isBtnActive() {
+      return Object.values(this.errors).some((e) => e !== "") ||
+        Object.values(this.form).includes("")
+        ? false
+        : true;
+    },
   },
 };
 </script>
   
-<style lang="scss">
+<style lang="scss" scoped>
+@import "../assets/variables.scss";
+
 .sign-in {
   width: 100%;
+}
+
+.popup {
+  background-color: $error;
+  width: 90%;
+  height: 48px;
+  border-radius: 24px;
+  position: absolute;
+  bottom: 17px;
+  left: 13px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  &__text {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.43;
+    color: #ffffff;
+  }
+
+  &__close-btn {
+    background-image: url("../assets/images/closeBtn.svg");
+    width: 11px;
+    height: 11px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    transition: $hover-animate;
+  }
+
+  &__close-btn:hover {
+    opacity: 0.7;
+    transition: $hover-animate;
+  }
+}
+
+.popup-enter-active,
+.popup-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.popup-enter-from,
+.popup-leave-to {
+  transform: translateY(100px);
+  transition: transform 0.5s ease;
 }
 </style>
