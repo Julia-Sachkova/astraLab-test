@@ -1,4 +1,13 @@
-# astralab-test
+# Тестовое задание для компании AstraLab
+
+* ссылка на [сайт](https://astra-lab-test.vercel.app/)
+
+### Используемые технологии
+* Vue
+* Vue Router
+* SCSS
+* БЭМ
+* Webpack
 
 ## Project setup
 ```

@@ -1,5 +1,5 @@
 <template>
-  <section class="sign-up" @click="handleClickPopup">
+  <section class="sign-up" @click="showPopup = false">
     <auth-component
       :title="'Sign Up'"
       :questionText="'Already have an account?'"
