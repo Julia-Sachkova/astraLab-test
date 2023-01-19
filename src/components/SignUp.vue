@@ -153,7 +153,7 @@ export default {
     handleSubmit() {
       this.$router.push("/main");
 
-      localStorage.setItem("user", JSON.parse(this.form));
+      localStorage.setItem("user", JSON.stringify(this.form));
 
       this.form = {
         fullName: "",
