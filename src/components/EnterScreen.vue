@@ -4,7 +4,7 @@
     <p class="enter__subtitle">Bring your media to the next level !</p>
     <div class="enter__btns">
       <RouterLink class="enter__btn" to="/sign-up">Sign Up</RouterLink>
-      <RouterLink class="enter__arrow-btn" to="/sign-up" />
+      <RouterLink class="enter__arrow-btn" to="/sign-in" />
     </div>
     <img class="enter__img" src="../assets/images/woman1.png" alt="девушка." />
   </section>
