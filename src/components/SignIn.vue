@@ -40,13 +40,13 @@
       </auth-input>
     </auth-component>
 
-    <Transition name="popup">
-      <div v-if="showPopup" class="popup">
-        <p class="popup__text">Wrong email or password</p>
+    <Transition name="modal">
+      <div v-if="showModal" class="modal">
+        <p class="modal__text">Wrong email or password</p>
         <button
           type="button"
-          class="popup__close-btn"
-          @click="handleClickPopup"
+          class="modal__close-btn"
+          @click="handleClickModal"
         />
       </div>
     </Transition>
@@ -70,7 +70,7 @@ export default {
         passError: "",
       },
       passType: "password",
-      showPopup: false,
+      showModal: false,
       user: JSON.parse(localStorage.getItem("user")),
     };
   },
@@ -80,25 +80,25 @@ export default {
         ? (this.passType = "text")
         : (this.passType = "password");
     },
-    handleClickPopup() {
-      this.showPopup = false;
+    handleClickModal() {
+      this.showModal = false;
     },
     checkEmail(evt) {
       if (this.user.email !== evt.target.value) {
-        this.showPopup = true;
+        this.showModal = true;
         this.errors.emailError = " ";
       } else {
         this.errors.emailError = "";
-        this.showPopup = false;
+        this.handleClickModal();
       }
     },
     checkPass(evt) {
       if (this.user.pass !== evt.target.value) {
-        this.showPopup = true;
+        this.showModal = true;
         this.errors.passError = " ";
       } else {
         this.errors.passError = "";
-        this.showPopup = false;
+        this.handleClickModal();
       }
     },
     handleSubmit() {
@@ -128,7 +128,7 @@ export default {
   width: 100%;
 }
 
-.popup {
+.modal {
   background-color: $error;
   width: 90%;
   height: 48px;
@@ -170,13 +170,13 @@ export default {
   }
 }
 
-.popup-enter-active,
-.popup-leave-active {
+.modal-enter-active,
+.modal-leave-active {
   transition: transform 0.5s ease;
 }
 
-.popup-enter-from,
-.popup-leave-to {
+.modal-enter-from,
+.modal-leave-to {
   transform: translateY(100px);
   transition: transform 0.5s ease;
 }
